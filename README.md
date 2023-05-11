@@ -230,7 +230,7 @@ plt.plot(errors_test)
 plt.show()
 figu.savefig("erros.png", dpi=300)  # salva gráficos
 
-# Output a scatter plot estimates versus observations.
+#Output a scatter plot estimates versus observations.
 
 fig=plt.figure(figsize=(15, 12))
 plt.subplot(2, 3, 3)
@@ -238,14 +238,11 @@ plt.ylabel('RNA Validation')
 plt.xlabel('Observations')
 plt.title("Scatter Plot")
 
-
-
 plt.scatter(y_predict, y_prev, c="g")
 zz=np.linspace(0,1,2) 
 plt.plot(zz,zz,'k--') # identity line
 plt.xlim(0,1)
 plt.ylim(0,1)
-
 
 plt.subplot(2, 3, 2)
 plt.ylabel('RNA Test')
@@ -256,8 +253,6 @@ plt.plot(zz,zz,'k--') # identity line
 plt.xlim(0,1)
 plt.ylim(0,1)
 
-
-
 plt.subplot(2, 3, 1)
 plt.ylabel('RNA Training')
 plt.xlabel('Observations')
@@ -267,4 +262,4 @@ plt.plot(zz,zz,'k--') # identity line
 plt.xlim(0,1)
 plt.ylim(0,1)
 plt.show()
-fig.savefig("scatter.png", dpi=300) # salva gráficos
+fig.savefig("scatter.png", dpi=300) 
