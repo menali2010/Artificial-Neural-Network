@@ -2,9 +2,13 @@
 Method for generating time series of daily solar irradiance from one year of station data (temperature, humidity) combined with values produced by a satellite model.
 
 #Artificial Neural Networks (ANNs) are systems composed of neurons that solve mathematical functions (both linear and nonlinear). ANNs are a tool capable of storing knowledge from training (examples) and can be used in various areas, such as prediction models, pattern recognition, and other human applications. 
+
 #To develop an ANN, it is necessary to execute code functions that train the network. In this stage, examples are provided to the network, which initially adjusts its synaptic weights and biases randomly and gradually refines these values through various functions until it extracts the best combinations to represent the data. Subsequently, these values are fixed and used to generate solutions for new input data.
+
 #The objective of this code is to develop a method for generating time series of daily solar irradiance from one year of field data acquisition combined with values produced by the BRASIL-SR model and used in the Brazilian Solar Energy Atlas.
+
 #To start creating the code, it is necessary to process the data obtained from the stations and the satellite, normalizing them to the range between 0 and 1. It is also necessary to group them into three files to import this information into the algorithm. The training file (Pet2014train) should contain 66.6% of the data corresponding to one year, with approximately 20 data points for each month. The second file is the testing file (Pet2014test), which contains the remaining 33.3% of data from the year used for training. The third file is the prediction file (Pet2010prediction), which contains another full year of data.
+
 #Initially, the data is grouped into three distinct spreadsheets used for training, testing, and prediction. Due to the storage format of the values (Excel), the pandas tool was used for importing. After the import, each set of values was saved in different data frames for later application in matrices. The values inserted into X are the input data of the system, which include satellite-estimated irradiation, surface temperature, and relative humidity. The data inserted into y are the output values, the expected result, which is the measured irradiation at the station. The last variable, xPredicted, represents the data that will be used for prediction, having the same properties as the variable X. However, the code should predict the output value these values will provide based on the training and testing steps using the variables X_train/X_test and y_train/y_test.
 
 
@@ -99,7 +103,9 @@ y_predict = y_predict.transpose()
 
 
 #After creating the variables, we can proceed with the development of the Artificial Neural Network (ANN) code. An ANN is essentially a class filled with functions that make it behave like an actual neural network. Therefore, to start the code, it is necessary to create a class (Neural_Network) to encapsulate the entire code within it, defining the properties and values used. Subsequently, the initialization function (init), also known as the constructor, should be defined. It generates the initial values of the algorithm. Within the initialization method, the weights and biases need to be defined. They are initialized randomly and adjusted later.
+
 #Since it involves matrix multiplication, the weights and biases must be randomly generated in the appropriate size. The initial weights (W1) that multiply the input layer should have the number of rows equal to the number of variables used in X (predictors), and the number of columns should be determined through testing. The best results are often achieved with a value of 4. The final weights (W2) have the number of rows equal to 4 and the number of columns equal to the number of output variables, which is usually 1.
+
 #The bias, as it represents values added after the multiplication and summation of weights with input data, initially contains (B1) a shape with the number of rows equal to the number of output variables and the number of columns equal to 4. Subsequently, (B2) contains the number of rows and columns equal to the number of output variables.
 #The learning rate (learning_rate) is defined empirically by testing which value works best for the neural network.
 
@@ -152,10 +158,14 @@ class Neural_Network(object):
 #________________________________________________________________________________________
 
 #After defining the forward propagation function, the next step is to define the backward propagation function, also known as backpropagation. This method is responsible for propagating the signal from the output (o_train) back to the input. It incrementally adjusts the weights and biases, leading to improved output values.
+
 #First, we calculate the sample difference between the expected output value (y_train) and the output value obtained from the code (o_train). Then, we apply the derivative of the sigmoid function to the output value and multiply it by the previous step's result (o_error). This result corresponds to the internal activity level of the neuron between the hidden layer and the output layer.
+
 #To determine how much the final weights (W2) contributed to the error, we perform a matrix multiplication between the previous step's result (o_delta) and the transpose of the old W2. The result (x2_error) is then multiplied by the values of the hidden layer (x2) that have been passed through the derivative of the activation function. This result corresponds to the internal activity level of the neuron between the input layer and the hidden layer.
+
 #To adjust W1, we add the previous initial weight with the matrix multiplication of the transposed input variables and the result from the previous step (x2_delta), multiplied by a predefined learning rate of the neural network. The adjustment of W2 is done similarly, using the previous final weights and adding the matrix multiplication of the hidden layer (x2) with o_delta, multiplied by the learning rate.
 #To adjust the initial bias (B1), we sum the results obtained from the column-wise summation of x2_delta, multiplied by the learning rate, and add the initial biases (B1). Lastly, we adjust the final bias (B2) in a similar manner as B1, summing the results obtained from the column-wise summation of the o_delta, multiplied by the learning rate, and adding the final bias.
+
 #The learning rate is crucial for gradually and slowly minimizing the error, aiming to achieve optimal performance.
 
     def backward(self, X_train, y_train, o_train):
@@ -187,6 +197,7 @@ class Neural_Network(object):
 #________________________________________________________________________________________
 
 #The next step is to define some stopping criteria for training the neural network. A neural network is designed to achieve its best performance, and therefore it is necessary to define a stopping algorithm that recognizes the best error at each epoch and determines if it is feasible to continue training. The algorithm compares the errors obtained during the testing phase, and if the current error is lower than the previous one, the network continues training.
+
 #If the last obtained error value is greater than the previous one, the network receives a stop signal. At this point, the best set of weights and biases is stored and applied to the variable X_predict, resulting in the output values.
 
 NN = Neural_Network()
@@ -265,6 +276,7 @@ print ("Erro de previsão: ", erro_previsão)
 #________________________________________________________________________________________
 
 #During the normalization of solar irradiation values, they were divided by their corresponding daily extraterrestrial irradiation value (as this is the maximum value that could reach the Earth's surface). Thus, after obtaining the output values, they are extracted to a new spreadsheet manually and multiplied by their corresponding daily extraterrestrial irradiation values to obtain the actual final solar irradiation values.
+
 #For a better analysis of the neural network's performance, graphs are used to measure the errors obtained during each epoch of training. The first set of graphs examines the mean squared error and its decrease during training, both for the training phase and the testing phase.
 
 figu=plt.figure(figsize=(10, 5))
