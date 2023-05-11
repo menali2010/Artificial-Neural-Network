@@ -104,11 +104,17 @@ y_predict = y_predict.transpose()
 #The learning rate (learning_rate) is defined empirically by testing which value works best for the neural network.
 
 n_predictors = X_train.shape[1]
+
 n_hiddenneurons = 4
+
 n_outputs = 1
+
 learning_rate = 0.05
 
+
+
 class Neural_Network(object):   
+
     def __init__(self):            
     
         self.inputSize =  n_predictors
@@ -184,17 +190,28 @@ class Neural_Network(object):
 #If the last obtained error value is greater than the previous one, the network receives a stop signal. At this point, the best set of weights and biases is stored and applied to the variable X_predict, resulting in the output values.
 
 NN = Neural_Network()
+
 erro_min = 9999
+
 status = True
+
 count = 0   #Count the number of training epochs.
+
 errors_train = []
+
 errors_test = []
 
+
 #Training and defining its error.
+
 for i in range (1000):
+
     NN.train(X_train, y_train)
+    
     erro_train = np.mean(np.square(y_train - NN.forward(X_train)))
+    
 print ("Erro de treinamento: ", erro_train)
+
    
 while status:
         
@@ -239,8 +256,11 @@ while status:
  
        
 y_prev = NN.forward(X_predict)
+
 erro_previsão = np.mean(np.square(y_predict - NN.forward(X_predict)))
+
 print ("Erro de previsão: ", erro_previsão)
+
 
 #________________________________________________________________________________________
 
@@ -249,54 +269,96 @@ print ("Erro de previsão: ", erro_previsão)
 
 figu=plt.figure(figsize=(10, 5))
 
+
 plt.subplot(1, 2, 1)
+
 plt.ylabel('MSE')
+
 plt.xlabel('Periods')
+
 plt.title("Mean Squared Error Train vs. Periods")
+
 plt.tight_layout()
+
 plt.plot(errors_train)
 
+
 plt.subplot(1, 2, 2)
+
 plt.ylabel('MSE')
+
 plt.xlabel('Periods')
+
 plt.title("Mean Squared Error Test vs. Periods")
+
 plt.tight_layout()
+
 plt.plot(errors_test)
+
 plt.show()
-figu.savefig("erros.png", dpi=300)  # salva gráficos
+
+figu.savefig("erros.png", dpi=300) 
+
 
 #Output a scatter plot estimates versus observations.
 
 fig=plt.figure(figsize=(15, 12))
+
 plt.subplot(2, 3, 3)
+
 plt.ylabel('RNA Validation')
+
 plt.xlabel('Observations')
+
 plt.title("Scatter Plot")
+
 
 plt.scatter(y_predict, y_prev, c="g")
+
 zz=np.linspace(0,1,2) 
+
 plt.plot(zz,zz,'k--') # identity line
+
 plt.xlim(0,1)
+
 plt.ylim(0,1)
+
 
 plt.subplot(2, 3, 2)
+
 plt.ylabel('RNA Test')
+
 plt.xlabel('Observations')
+
 plt.title("Scatter Plot")
+
 plt.scatter(NN.forward(X_test), y_test, c="b")
+
 plt.plot(zz,zz,'k--') # identity line
+
 plt.xlim(0,1)
+
 plt.ylim(0,1)
 
+
 plt.subplot(2, 3, 1)
+
 plt.ylabel('RNA Training')
+
 plt.xlabel('Observations')
+
 plt.title("Scatter Plot")
+
 plt.scatter(NN.forward(X_train), y_train, c="r")
+
 plt.plot(zz,zz,'k--') # identity line
+
 plt.xlim(0,1)
+
 plt.ylim(0,1)
+
 plt.show()
+
 fig.savefig("scatter.png", dpi=300) 
 
 #________________________________________________________________________________________
