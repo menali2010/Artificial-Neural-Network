@@ -9,7 +9,9 @@ Method for generating time series of daily solar irradiance from one year of sta
 
 
 @author: Menali
+
 """
+
 import numpy as np
 
 import pandas as pd
@@ -17,12 +19,19 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 xlsx60=pd.ExcelFile("Pet2014train.xlsx")
+
 df=pd.read_excel(xlsx60, "Planilha1")
+
 m=df.shape[0]
+
 df1=df.radext
+
 df2=df.ghiext
+
 df3=df.temp
+
 df7=df.umidade
+
 
 xlsx40=pd.ExcelFile("Pet2014test.xlsx")
 df4=pd.read_excel(xlsx40, "Planilha1")
