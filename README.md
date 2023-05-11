@@ -18,6 +18,7 @@ import pandas as pd
 
 from matplotlib import pyplot as plt
 
+
 xlsx60=pd.ExcelFile("Pet2014train.xlsx")
 
 df=pd.read_excel(xlsx60, "Planilha1")
@@ -34,42 +35,68 @@ df7=df.umidade
 
 
 xlsx40=pd.ExcelFile("Pet2014test.xlsx")
+
 df4=pd.read_excel(xlsx40, "Planilha1")
+
 df5=df4.ghiext
+
 df6=df4.temp
+
 df8=df4.umidade
+
 df13=df4.radext
 
+
 xlsx70=pd.ExcelFile("Pet2010predição.xlsx")
+
 df9=pd.read_excel(xlsx70, "Planilha1")
+
 df10=df9.ghiext
+
 df11=df9.temp
+
 df12=df9.umidade
+
 df14=df9.radext
+
 
 #X=irradiaçãoSatélite//temperatura//umidade
 
 #y=irradiaçãoEstação
 
+
 X_train = np.array(([df2,df3,df7]), dtype=float)
+
 X_train=X_train.transpose()
 
+
 X_test = np.array(([df5,df6,df8]), dtype=float)
+
 X_test = X_test.transpose()
 
+
 X_predict = np.array(([df10,df11,df12]), dtype=float)
+
 X_predict = X_predict.transpose()
 
+
 y_train = np.array(([df1]), dtype=float)   
+
 y_train = y_train.transpose()
 
+
 y_test = np.array(([df13]), dtype=float)
+
 y_test = y_test.transpose()
 
+
 y_predict = np.array(([df14]), dtype=float)
+
 y_predict = y_predict.transpose()
 
+
 #________________________________________________________________________________________
+
 
 #After creating the variables, we can proceed with the development of the Artificial Neural Network (ANN) code. An ANN is essentially a class filled with functions that make it behave like an actual neural network. Therefore, to start the code, it is necessary to create a class (Neural_Network) to encapsulate the entire code within it, defining the properties and values used. Subsequently, the initialization function (init), also known as the constructor, should be defined. It generates the initial values of the algorithm. Within the initialization method, the weights and biases need to be defined. They are initialized randomly and adjusted later.
 #Since it involves matrix multiplication, the weights and biases must be randomly generated in the appropriate size. The initial weights (W1) that multiply the input layer should have the number of rows equal to the number of variables used in X (predictors), and the number of columns should be determined through testing. The best results are often achieved with a value of 4. The final weights (W2) have the number of rows equal to 4 and the number of columns equal to the number of output variables, which is usually 1.
